@@ -1,9 +1,0 @@
-if (!product) {
-     return res.status(500).json({
-       success: false,
-       message: "Product not found !!!",
-     });
-}
----> Setting Backend
-npm i express mongoose dotenv
-npm i bcryptjs jsonwebtoken validator nodemail cookie-parser body-parser
