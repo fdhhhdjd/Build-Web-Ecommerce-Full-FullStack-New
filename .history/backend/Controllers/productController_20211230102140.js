@@ -14,20 +14,16 @@ exports.createProducts = catchAsyncErrors(async (req, res) => {
 //! Get all Product
 exports.getAllProducts = catchAsyncErrors(async (req, res) => {
   const resultPaginator = 5;
-  const productCount = await Product.countDocuments();
   const apiFeatures = new ApiFeatures(Product.find(), req.query)
     .search()
     .filter()
     .pagination(resultPaginator);
-
   const products = await apiFeatures.query;
-  let filteredProductsCount = products.length;
+  // const products = await Product.find();
   res.status(200).json({
     success: true,
     message: "Get All Products Successfully !",
     products,
-    productCount,
-    filteredProductsCount,
   });
 });
 //! get Product Detail

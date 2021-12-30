@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 // const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-const ErrorHandler = require("./middleware/error");
+const ErrorHandler = require("./utils/ErrorHandler");
 // const fileUpload = require("express-fileupload");
 const path = require("path");
 app.use(express.json());

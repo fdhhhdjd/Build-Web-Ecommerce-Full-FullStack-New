@@ -13,26 +13,19 @@ exports.createProducts = catchAsyncErrors(async (req, res) => {
 });
 //! Get all Product
 exports.getAllProducts = catchAsyncErrors(async (req, res) => {
-  const resultPaginator = 5;
-  const productCount = await Product.countDocuments();
-  const apiFeatures = new ApiFeatures(Product.find(), req.query)
-    .search()
-    .filter()
-    .pagination(resultPaginator);
-
-  const products = await apiFeatures.query;
-  let filteredProductsCount = products.length;
+  const products = await Product.find();
   res.status(200).json({
     success: true,
     message: "Get All Products Successfully !",
     products,
-    productCount,
-    filteredProductsCount,
   });
 });
 //! get Product Detail
 exports.getProductsDetail = catchAsyncErrors(async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
+  const apiFeatures = new ApiFeatures(Product.find(), req.query).search();
+  // const product = await Product.findById(req.params.id);
+  const products = await apiFeatures.query;
+
   if (!product) {
     return next(new ErrorHandler("Product not found !!!", 404));
   }

@@ -1,0 +1,6 @@
+  if (!product) {
+     return res.status(500).json({
+       success: false,
+       message: "Product not found !!!",
+     });
+}
