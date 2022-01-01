@@ -4,7 +4,7 @@ import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 import styled from "styled-components";
 import { mobile } from "../../Styles/responsive";
 import { tai } from "../../imports/Image";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 const Container = styled.div`
   height: 60px;
   ${mobile({ height: "50px" })}
@@ -86,10 +86,16 @@ const ImgProfile = styled.img`
 const Header = () => {
   const [native, setNative] = useState(false);
   const [activeTab, setActiveTab] = useState("Home");
+  const [keyword, setKeyword] = useState("");
   const location = useLocation();
-  const handleNative = () => {
-    setNative(!native);
+  const navigate = useNavigate();
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (keyword.trim()) {
+      navigate(`/products/all/${keyword}`);
+    }
   };
+
   useEffect(() => {
     if (location.pathname === "/login") {
       setActiveTab("Login");
@@ -103,12 +109,20 @@ const Header = () => {
         <Left>
           <Language>EN</Language>
           <SearchContainer>
-            <Input placeholder="Search" />
-            <Search style={{ color: "gray", fontSize: 16 }} />
+            <form onSubmit={handleSearch}>
+              <Input
+                placeholder="Search"
+                onChange={(e) => setKeyword(e.target.value)}
+              />
+              <Search
+                style={{ color: "gray", fontSize: 16 }}
+                onClick={handleSearch}
+              />
+            </form>
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>Commerce Dev</Logo>
+          <Logo>Shop Commerce Dev</Logo>
         </Center>
         <Right>
           <MenuItem>

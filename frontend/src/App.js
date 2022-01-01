@@ -10,13 +10,21 @@ import {
   Register,
   Header,
   Welcome,
+  ScrollTop,
 } from "./imports/index";
-import { Home, Login } from "./imports/LazyRouter";
+import {
+  Home,
+  Login,
+  ProductList,
+  ProductItem,
+  Cart,
+} from "./imports/LazyRouter";
 function App() {
   return (
     <>
       <Suspense fallback={<Loading />}>
         <ToastContainer />
+        <ScrollTop />
         <Routes>
           <Route path="/password/forgot" element={<ForgotPassword />} />
           <Route path="/password/reset/:token" element={<ResetPassword />} />
@@ -24,6 +32,10 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Welcome />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/products/all" element={<ProductList />} />
+          <Route path="/products/:id" element={<ProductItem />} />
+          <Route path="/products/all/:keyword" element={<ProductList />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

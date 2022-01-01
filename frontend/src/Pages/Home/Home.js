@@ -1,11 +1,21 @@
 import React from "react";
-import { Header } from "../../imports";
-
+import {
+  Header,
+  Slide,
+  Categories,
+  Products,
+  Newsletter,
+  Footer,
+} from "../../imports/index";
 const Home = () => {
   return (
     <>
       <Header />
-      <h1>Home</h1>
+      <Slide />
+      <Categories />
+      <Products />
+      <Newsletter />
+      <Footer />
     </>
   );
 };

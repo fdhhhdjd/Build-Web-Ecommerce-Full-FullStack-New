@@ -10,3 +10,11 @@ export { default as ResetPassword } from "../Components/Authentication/ResetPass
 export { default as Welcome } from "../Pages/Welcome/Welcome";
 export { default as Navbar } from "../Pages/Welcome/Navbar";
 export { default as Hero } from "../Pages/Welcome/Hero";
+export { default as Slide } from "../Components/Slide/Slider";
+export { default as Categories } from "../Components/Categories/Categories";
+export { default as CategoryItem } from "../Components/Categories/CategoryItem";
+export { default as Products } from "../Components/Products/Products";
+export { default as Product } from "../Components/Products/Product";
+export { default as Newsletter } from "../Components/Newsletter/Newsletter";
+export { default as ScrollTop } from "../Components/ScrollTop/ScrollTop";
+export { default as ProductApi } from "../Contexts/ProductApi";

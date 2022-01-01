@@ -12,3 +12,24 @@ export const Login = lazy(() => {
     );
   });
 });
+export const ProductList = lazy(() => {
+  return new Promise((resolve) => {
+    setTimeout(
+      () => resolve(import("../Components/ProductList/ProductList")),
+      1500
+    );
+  });
+});
+export const ProductItem = lazy(() => {
+  return new Promise((resolve) => {
+    setTimeout(
+      () => resolve(import("../Components/ProductItem/ProductItem")),
+      1000
+    );
+  });
+});
+export const Cart = lazy(() => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(import("../Components/Cart/Cart")), 1000);
+  });
+});
