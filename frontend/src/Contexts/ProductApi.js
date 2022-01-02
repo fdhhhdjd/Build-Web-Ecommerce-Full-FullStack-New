@@ -9,9 +9,9 @@ const ProductApi = (callback) => {
   const searchValue = useRef();
   const dispatch = useDispatch();
   const { keyword } = useParams();
-  // useEffect(() => {
-  //   dispatch(GetAllProductInitiate(keyword));
-  // }, [callback, keyword, dispatch]);
+  useEffect(() => {
+    dispatch(GetAllProductInitiate());
+  }, [callback]);
 
   return {
     callback: [callbacks, setCallbacks],

@@ -4,6 +4,9 @@ const initialState = {
   error: null,
   product: [],
   productDetail: [],
+  productCount: [],
+  resultPerPage: [],
+  filteredProductsCount: [],
 };
 const ProductReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -19,6 +22,9 @@ const ProductReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         product: action.payload.products,
+        productCount: action.payload.productCount,
+        resultPerPage: action.payload.resultPaginator,
+        filteredProductsCount: action.payload.filteredProductsCount,
       };
     case types.GET_DETAIL_PRODUCT_SUCCESS:
       return {

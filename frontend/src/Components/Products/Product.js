@@ -72,8 +72,8 @@ const Icon = styled.div`
 
 const Product = ({ item, loading }) => {
   return (
-    <Container>
-      <>
+    <>
+      <Container>
         <Circle />
         <Image src={item.images[0].url} />
         <Info>
@@ -89,8 +89,8 @@ const Product = ({ item, loading }) => {
             <FavoriteBorderOutlined />
           </Icon>
         </Info>
-      </>
-    </Container>
+      </Container>
+    </>
   );
 };
 

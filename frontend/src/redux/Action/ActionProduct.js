@@ -28,11 +28,24 @@ export const GetDetailProductFail = (error) => ({
 });
 
 //! Get All Product
-export const GetAllProductInitiate = (keyword = "") => {
+export const GetAllProductInitiate = (
+  keyword = "",
+  currentPage = 1,
+  price = [0, 25000],
+  category,
+  ratings = 0
+) => {
   return async function (dispatch) {
     dispatch(GetAllProductStart());
+    let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+    if (category) {
+      link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
+    } else if ((category = "")) {
+      link = `/api/v1/products`;
+    }
+
     await axios
-      .get(`/api/v1/products?keyword=${keyword}`)
+      .get(link)
       .then((product) => {
         dispatch(GetAllProductSuccess(product.data));
       })

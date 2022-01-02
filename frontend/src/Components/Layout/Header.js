@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Badge } from "@material-ui/core";
 import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 import styled from "styled-components";
 import { mobile } from "../../Styles/responsive";
 import { tai } from "../../imports/Image";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { GlobalState } from "../../Contexts/GlobalState";
 const Container = styled.div`
   height: 60px;
   ${mobile({ height: "50px" })}
@@ -89,13 +90,17 @@ const Header = () => {
   const [keyword, setKeyword] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
+  const state = useContext(GlobalState);
+  const [callback, setCallback] = state.callback;
   const handleSearch = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
       navigate(`/products/all/${keyword}`);
+    } else {
+      navigate("/products/all");
+      setCallback(true);
     }
   };
-
   useEffect(() => {
     if (location.pathname === "/login") {
       setActiveTab("Login");

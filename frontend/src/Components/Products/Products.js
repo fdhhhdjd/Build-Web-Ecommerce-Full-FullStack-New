@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Product } from "../../imports/index";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 const Container = styled.div`
   padding: 20px;
@@ -11,7 +12,7 @@ const Container = styled.div`
 
 const Products = () => {
   const { product, loading } = useSelector((state) => state.product);
-  console.log(product);
+
   return (
     <Container>
       {product.map((item, index) => (
