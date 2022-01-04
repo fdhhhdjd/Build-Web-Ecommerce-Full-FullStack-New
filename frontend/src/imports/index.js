@@ -18,3 +18,6 @@ export { default as Product } from "../Components/Products/Product";
 export { default as Newsletter } from "../Components/Newsletter/Newsletter";
 export { default as ScrollTop } from "../Components/ScrollTop/ScrollTop";
 export { default as ProductApi } from "../Contexts/ProductApi";
+export { default as MetaData } from "../Components/Layout/MetaData";
+export { default as Loader } from "../Components/Loading/Loader";
+export { default as Profile } from "../Components/ProfileAuth/Profile";

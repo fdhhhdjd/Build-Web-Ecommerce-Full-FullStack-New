@@ -9,8 +9,8 @@ import { GlobalState } from "../../Contexts/GlobalState";
 import Pagination from "react-js-pagination";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
+import { MetaData } from "../../imports/index";
 const Container = styled.div``;
-
 const Title = styled.h1`
   margin: 20px;
 `;
@@ -152,8 +152,13 @@ const ProductList = () => {
   const { keyword } = useParams();
   const state = useContext(GlobalState);
   const [callback, setCallback] = state.callback;
-  const { productDetail, productCount, resultPerPage, filteredProductsCount } =
-    useSelector((state) => state.product);
+  const {
+    productDetail,
+    productCount,
+    resultPerPage,
+    filteredProductsCount,
+    loading,
+  } = useSelector((state) => state.product);
   const [currentPage, setCurrentPage] = useState(1);
   const [price, setPrice] = useState([0, 25000]);
   const [category, setCategory] = useState("");
@@ -177,6 +182,7 @@ const ProductList = () => {
   console.log(category, "category");
   return (
     <Container>
+      <MetaData title="Product-- Web" />
       <Header />
       <Title>Hello</Title>
       <FilterContainer>
@@ -189,7 +195,6 @@ const ProductList = () => {
               </Option>
             ))}
           </Select>
-
           <Typography>Price</Typography>
           <Slider
             value={price}

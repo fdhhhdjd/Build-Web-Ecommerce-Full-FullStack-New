@@ -84,7 +84,14 @@ form{
     padding: 5px 0;
     border-bottom: 2px solid #d9d9d9;
 }
-
+.login-content .input-div-tow{
+	position: relative;
+	color:red;
+	text-align: left;
+}
+.input-div-tow{
+	margin-top: 0;
+}
 .login-content .input-div.one{
 	margin-top: 0;
 }
@@ -162,7 +169,8 @@ form{
 }
 
 .input-div.pass{
-	margin-bottom: 4px;
+
+
 }
 
 span{

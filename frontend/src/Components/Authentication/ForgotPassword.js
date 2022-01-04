@@ -4,10 +4,12 @@ import { wave, bg, logo } from "../../imports/Image";
 import Lottie from "react-lottie";
 import { Link } from "react-router-dom";
 import { defaultOptions2 } from "../../imports/Lottie";
+import MetaData from "../Layout/MetaData";
 const ForgotPassword = () => {
   return (
     <>
       <AuthStyle />
+      <MetaData title="Forgot-Web" />
       <img className="wave" src={wave} />
       <div className="container">
         <div className="img">

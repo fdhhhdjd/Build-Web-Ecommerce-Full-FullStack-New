@@ -6,6 +6,8 @@ import { mobile } from "../../Styles/responsive";
 import { tai } from "../../imports/Image";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GlobalState } from "../../Contexts/GlobalState";
+import { useSelector, useDispatch } from "react-redux";
+import { LogoutInitiate } from "../../redux/Action/ActionAdmin";
 const Container = styled.div`
   height: 60px;
   ${mobile({ height: "50px" })}
@@ -53,8 +55,8 @@ const Center = styled.div`
   text-align: center;
 `;
 
-const Logo = styled.h1`
-  font-weight: bold;
+const Logo = styled.span`
+  font-size: 2rem;
   ${mobile({ fontSize: "24px" })}
 `;
 const Right = styled.div`
@@ -75,6 +77,17 @@ const MenuItem = styled.div`
   }
   ${mobile({ fontSize: "12px", marginLeft: "10px" })};
 `;
+const MenuItem1 = styled.div`
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 25px;
+  .link {
+    text-decoration: none;
+    color: black;
+  }
+
+  ${mobile({ fontSize: "12px", marginLeft: "10px" })};
+`;
 const ImgProfile = styled.img`
   width: 46px;
   height: 46px;
@@ -92,6 +105,8 @@ const Header = () => {
   const navigate = useNavigate();
   const state = useContext(GlobalState);
   const [callback, setCallback] = state.callback;
+  const { isAuthenticated, auth } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const handleSearch = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
@@ -101,11 +116,16 @@ const Header = () => {
       setCallback(true);
     }
   };
+  const handleLogout = () => {
+    dispatch(LogoutInitiate());
+  };
   useEffect(() => {
-    if (location.pathname === "/login") {
-      setActiveTab("Login");
+    if (location.pathname === "/products/all") {
+      setActiveTab("Product");
     } else if (location.pathname === "/home") {
       setActiveTab("Home");
+    } else if (location.pathname === "/cart") {
+      setActiveTab("Cart");
     }
   }, [location]);
   return (
@@ -127,7 +147,7 @@ const Header = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>Shop Commerce Dev</Logo>
+          <Logo>Hello 😊,{auth.name}</Logo>
         </Center>
         <Right>
           <MenuItem>
@@ -144,22 +164,44 @@ const Header = () => {
           </MenuItem>
           <MenuItem>
             <Link
-              to="/login"
+              to="/products/all"
               className="link"
               style={
-                activeTab === "Login" ? { borderBottom: "5px solid green" } : {}
+                activeTab === "Product"
+                  ? { borderBottom: "5px solid green" }
+                  : {}
               }
-              onClick={() => setActiveTab("Login")}
+              onClick={() => setActiveTab("Product")}
             >
-              SIGN IN
+              PRODUCT
             </Link>
           </MenuItem>
           <MenuItem>
-            <ImgProfile src={tai} />
+            <Link
+              to="/cart"
+              className="link"
+              style={
+                activeTab === "Cart" ? { borderBottom: "5px solid green" } : {}
+              }
+              onClick={() => setActiveTab("Cart")}
+            >
+              CART
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="/login" className="link" onClick={handleLogout}>
+              LOGOUT
+            </Link>
+          </MenuItem>
+
+          <MenuItem>
+            <Link to="/profile">
+              <ImgProfile src={auth.avatar.url} />
+            </Link>
           </MenuItem>
           <MenuItem>
             <Badge badgeContent={4} color="primary">
-              <Link to="/payment">
+              <Link to="/cart">
                 <ShoppingCartOutlined />
               </Link>
             </Badge>

@@ -5,11 +5,13 @@ import { FaChevronRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
 import { defaultOptions5 } from "../../imports/Lottie";
+import { MetaData } from "../../imports/index";
 const Hero = () => {
   const navigate = useNavigate();
   return (
     <>
       <HeroStyle />
+      <MetaData title="Welcome-Web" />
       <section className="hero">
         <div className="hero-center">
           <article className="hero-info">

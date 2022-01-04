@@ -4,6 +4,7 @@ import { wave, bg, logo } from "../../imports/Image";
 import Lottie from "react-lottie";
 import { Link } from "react-router-dom";
 import { defaultOptions3 } from "../../imports/Lottie";
+import MetaData from "../Layout/MetaData";
 const ResetPassword = () => {
   const [togglePass, setTogglePass] = useState(false);
   const [toggleCfPass, setToggleCfPass] = useState(false);
@@ -17,6 +18,7 @@ const ResetPassword = () => {
   return (
     <>
       <AuthStyle />
+      <MetaData title="Reset Password-Web" />
       <img className="wave" src={wave} />
       <div className="container">
         <div className="img1 ">

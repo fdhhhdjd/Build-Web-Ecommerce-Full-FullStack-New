@@ -4,11 +4,13 @@ import Lottie from "react-lottie";
 import { Link } from "react-router-dom";
 import { defaultOptions4 } from "../../imports/Lottie";
 import { useNavigate } from "react-router-dom";
+import { MetaData } from "../../imports";
 const NotFound = () => {
   const navigate = useNavigate();
   return (
     <>
       <NotFoundStyle />
+      <MetaData title="Not-Found-404 🙄" />
       <div className="bg-purple">
         <div className="svg">
           <Lottie options={defaultOptions4} className="svg" />

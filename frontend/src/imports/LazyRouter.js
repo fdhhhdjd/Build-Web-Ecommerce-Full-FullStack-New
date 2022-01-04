@@ -33,3 +33,11 @@ export const Cart = lazy(() => {
     setTimeout(() => resolve(import("../Components/Cart/Cart")), 1000);
   });
 });
+export const Profiles = lazy(() => {
+  return new Promise((resolve) => {
+    setTimeout(
+      () => resolve(import("../Components/ProfileAuth/Profiles")),
+      1000
+    );
+  });
+});

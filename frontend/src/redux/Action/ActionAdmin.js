@@ -1,7 +1,6 @@
 import axios from "axios";
 import * as types from "../ActionTypes";
 import { toast } from "react-toastify";
-import swal from "sweetalert";
 //?Register
 export const RegisterStart = () => ({
   type: types.REGISTER_API_START,
@@ -33,11 +32,25 @@ export const LogoutStart = () => ({
 export const LogoutSuccess = () => ({
   type: types.LOGOUT_API_SUCCESS,
 });
-export const LogoutFail = () => ({
+export const LogoutFail = (error) => ({
   type: types.LOGOUT_API_FAIL,
+  payload: error,
 });
 
-//?Logout
+//?Get profile
+export const GetProfileStart = () => ({
+  type: types.GET_PROFILE_ACCOUNT_START,
+});
+export const GetProfileSuccess = (token) => ({
+  type: types.GET_PROFILE_ACCOUNT_SUCCESS,
+  payload: token,
+});
+export const GetProfileFail = (error) => ({
+  type: types.GET_PROFILE_ACCOUNT_FAIL,
+  payload: error,
+});
+
+//?forget
 export const ForgetStart = () => ({
   type: types.FORGET_ADMIN_START,
 });
@@ -49,82 +62,59 @@ export const ForgetFail = (error) => ({
   type: types.FORGET_ADMIN_FAIL,
   payload: error,
 });
-//? refresh_token
-export const RefreshTokenStart = () => ({
-  type: types.REFRESH_TOKEN_ADMIN_START,
-});
-export const RefreshTokenSuccess = (token) => ({
-  type: types.REFRESH_TOKEN_ADMIN_SUCCESS,
-  payload: token,
-});
-export const RefreshTokenFail = (error) => ({
-  type: types.REFRESH_TOKEN_ADMIN_FAIL,
-  payload: error,
-});
 //!Register
-export const RegisterInitiate = (
-  email,
-  hoten,
-  username,
-  password,
-  ngaysinh,
-  gioitinh,
-  dienthoai
-) => {
-  return async function (dispatch) {
+export const RegisterInitiate = (userData) => async (dispatch) => {
+  try {
     dispatch(RegisterStart());
-    await axios
-      .post("/admin/register", {
-        email,
-        hoten,
-        username,
-        password,
-        ngaysinh,
-        gioitinh,
-        dienthoai,
-      })
-      .then((user) => {
-        dispatch(RegisterSuccess(user.data));
-      })
-      .catch((error) => {
-        dispatch(RegisterFail(toast.error(error.data)));
-      });
-  };
+
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
+
+    const { data } = await axios.post(`/api/v1/register`, userData, config);
+
+    dispatch(
+      RegisterSuccess(data.user),
+      toast.success("Register Successfully 💖")
+    );
+  } catch (error) {
+    dispatch(
+      RegisterFail(error.response.data.message),
+      toast.error(error.response.data.message)
+    );
+  }
 };
 //!Login
-export const loginInitiate = (email, password) => {
-  return async function (dispatch) {
+export const loginInitiate = (email, password) => async (dispatch) => {
+  try {
     dispatch(LoginStart());
-    await axios
-      .post("/admin/login", { email, password })
-      .then((user) => {
-        dispatch(LoginSuccess(user.data));
-      })
-      .catch((error) => {
-        dispatch(LoginFail(toast.error(error.data)));
-      });
-  };
+
+    const config = { headers: { "Content-Type": "application/json" } };
+
+    const { data } = await axios.post(
+      `/api/v1/login`,
+      { email, password },
+      config
+    );
+
+    dispatch(LoginSuccess(data.user), toast.success("Login Successfully 💖"));
+  } catch (error) {
+    dispatch(
+      LoginFail(error.response.data.message),
+      toast.error(error.response.data.message)
+    );
+  }
 };
 //!Logout
-export const LogoutInitiate = () => {
-  return async function (dispatch) {
+export const LogoutInitiate = () => async (dispatch) => {
+  try {
     dispatch(LogoutStart());
-    await axios
-      .get("/admin/logout")
-      .then((user) => {
-        dispatch(
-          LogoutSuccess(
-            user,
-            toast.success("Logout Success Thank You!"),
-            localStorage.removeItem("firstLogin"),
-            (window.location.href = "/login")
-          )
-        );
-      })
-      .catch((error) => {
-        dispatch(LoginFail(error));
-      });
-  };
+    await axios.get(`/api/v1/logout`);
+    dispatch(LogoutSuccess(), toast.success("Logout Successfully 💖"));
+  } catch (error) {
+    dispatch(
+      LogoutFail(error.response.data.message),
+      toast.error(error.response.data.message)
+    );
+  }
 };
 
 //!Forget Admin
@@ -140,4 +130,20 @@ export const ForgetAdminInitiate = (email) => {
         dispatch(ForgetFail(error.data));
       });
   };
+};
+//!Get profile
+export const LoadProfileInitiate = () => async (dispatch) => {
+  try {
+    dispatch(GetProfileStart());
+
+    const { data } = await axios.get(`/api/v1/me`);
+
+    dispatch(GetProfileSuccess(data.user));
+  } catch (error) {
+    dispatch(GetProfileFail(error.response.data.message));
+  }
+};
+//!CLEAR_ERRORS
+export const clearErrors = () => async (dispatch) => {
+  dispatch({ type: types.CLEAR_ERRORS_SUCCESS });
 };

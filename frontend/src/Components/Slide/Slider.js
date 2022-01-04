@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { sliderItems } from "../../utils/Data/SliderData";
 import { mobile } from "../../Styles/responsive";
 import { useNavigate } from "react-router-dom";
-
+import { MetaData } from "../../imports/index";
 const Container = styled.div`
   width: 100%;
   height: 100vh;
@@ -121,6 +121,7 @@ const Slider = () => {
   }, [slideIndex]);
   return (
     <Container>
+      <MetaData title="Ecommerce-Web" />
       <Arrow direction="left" onClick={() => handleClick("left")}>
         <ArrowLeftOutlined />
       </Arrow>

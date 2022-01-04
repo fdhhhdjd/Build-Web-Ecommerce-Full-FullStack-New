@@ -18,12 +18,13 @@ import {
   ProductList,
   ProductItem,
   Cart,
+  Profiles,
 } from "./imports/LazyRouter";
 function App() {
   return (
     <>
       <Suspense fallback={<Loading />}>
-        <ToastContainer />
+        <ToastContainer position="top-center" />
         <ScrollTop />
         <Routes>
           <Route path="/password/forgot" element={<ForgotPassword />} />
@@ -32,6 +33,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Welcome />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/profile" element={<Profiles />} />
           <Route path="/products/all" element={<ProductList />} />
           <Route path="/products/:id" element={<ProductItem />} />
           <Route path="/products/all/:keyword" element={<ProductList />} />

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { GlobalState } from "../../Contexts/GlobalState";
 import { GetDetailProductInitiate } from "../../redux/Action/ActionProduct";
+import MetaData from "../Layout/MetaData";
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -132,6 +133,7 @@ const ProductItem = () => {
   }, [callback]);
   return (
     <Container>
+      <MetaData title={`${productDetail.name} -- Web`} />
       <Header />
       <Wrapper>
         <ImgContainer>

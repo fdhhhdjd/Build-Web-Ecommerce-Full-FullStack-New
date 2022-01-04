@@ -7,6 +7,7 @@ import {
   Newsletter,
   Footer,
 } from "../../imports/index";
+
 const Home = () => {
   return (
     <>

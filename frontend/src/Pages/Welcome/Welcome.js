@@ -1,6 +1,5 @@
 import React from "react";
-import { Navbar, Hero } from "../../imports/index";
-
+import { MetaData, Navbar, Hero } from "../../imports/index";
 const Welcome = () => {
   return (
     <>
