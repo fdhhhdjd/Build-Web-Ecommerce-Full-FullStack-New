@@ -5,6 +5,7 @@ const initialState = {
   auth: [],
   isAuthenticated: false,
   isAuthRegister: false,
+  isUpdated: [],
 };
 const AuthReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -12,6 +13,7 @@ const AuthReducer = (state = initialState, action) => {
     case types.REGISTER_API_START:
     case types.LOGOUT_API_START:
     case types.GET_PROFILE_ACCOUNT_START:
+    case types.UPDATE_PROFILE_START:
       return {
         ...state,
         loading: true,
@@ -26,6 +28,13 @@ const AuthReducer = (state = initialState, action) => {
         isAuthenticated: true,
         auth: action.payload,
       };
+    case types.UPDATE_PROFILE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        isUpdated: action.payload,
+      };
+    }
     case types.REGISTER_API_SUCCESS:
       return {
         loading: false,
@@ -36,16 +45,23 @@ const AuthReducer = (state = initialState, action) => {
         loading: false,
         isAuthenticated: false,
       };
+    case types.UPDATE_PROFILE_SUCCESS:
+      return {
+        loading: false,
+        isUpdated: action.payload,
+      };
 
     case types.CLEAR_ERRORS_SUCCESS:
       return {
         ...state,
         error: null,
       };
+
     case types.LOGIN_API_FAIL:
     case types.REGISTER_API_FAIL:
     case types.LOGOUT_API_FAIL:
     case types.GET_PROFILE_ACCOUNT_FAIL:
+    case types.UPDATE_PROFILE_FAIL:
       return {
         ...state,
         loading: false,

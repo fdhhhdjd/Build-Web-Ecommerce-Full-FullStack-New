@@ -12,17 +12,12 @@ cloudinary.config({
   api_key: process.env.CLOUD_API_KEY,
   api_secret: process.env.CLOUD_API_SECRET,
 });
-
+if (process.env.NODE_ENV !== "PRODUCTION") {
+  require("dotenv").config({ path: "backend/config/config.env" });
+}
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to Tai heo Fa" });
 });
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-  });
-}
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>

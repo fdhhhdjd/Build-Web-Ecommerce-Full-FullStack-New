@@ -62,6 +62,18 @@ export const ForgetFail = (error) => ({
   type: types.FORGET_ADMIN_FAIL,
   payload: error,
 });
+//?upload profile
+export const UploadProfileStart = () => ({
+  type: types.UPDATE_PROFILE_START,
+});
+export const UploadProfileSuccess = (admin) => ({
+  type: types.UPDATE_PROFILE_SUCCESS,
+  payload: admin,
+});
+export const UploadProfileFail = (error) => ({
+  type: types.UPDATE_PROFILE_FAIL,
+  payload: error,
+});
 //!Register
 export const RegisterInitiate = (userData) => async (dispatch) => {
   try {
@@ -143,6 +155,21 @@ export const LoadProfileInitiate = () => async (dispatch) => {
     dispatch(GetProfileFail(error.response.data.message));
   }
 };
+//!Get profile
+export const UploadProfileInitiate = (userData) => async (dispatch) => {
+  try {
+    dispatch(dispatch(UploadProfileStart()));
+
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
+
+    const { data } = await axios.put(`/api/v1/me/update`, userData, config);
+
+    dispatch(UploadProfileSuccess(data.success), toast.success("edit oke"));
+  } catch (error) {
+    dispatch(UploadProfileFail(error.response.data.message));
+  }
+};
+
 //!CLEAR_ERRORS
 export const clearErrors = () => async (dispatch) => {
   dispatch({ type: types.CLEAR_ERRORS_SUCCESS });

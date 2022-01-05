@@ -13,14 +13,11 @@ const Login = () => {
     register,
     formState: { errors },
     handleSubmit,
-    watch,
   } = useForm();
   const { error, loading, isAuthenticated } = useSelector(
     (state) => state.auth
   );
   const dispatch = useDispatch();
-  const location = useLocation();
-  const passwords = useRef({});
   const [togglePass, setTogglePass] = useState(false);
   const navigate = useNavigate();
   const handTogglePass = () => {

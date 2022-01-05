@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { Loader, MetaData, Header } from "../../imports/index";
 const Profile = () => {
   const { auth, loading, isAuthenticated } = useSelector((state) => state.auth);
-
   return (
     <>
       <ProfileStyle />

@@ -21,3 +21,8 @@ export { default as ProductApi } from "../Contexts/ProductApi";
 export { default as MetaData } from "../Components/Layout/MetaData";
 export { default as Loader } from "../Components/Loading/Loader";
 export { default as Profile } from "../Components/ProfileAuth/Profile";
+export { default as LoadingToRedirect } from "../Components/UserRoute/LoadingToRedirect";
+export { default as LoadingToRedirects } from "../Components/UserRoute/LoadingToRedirects";
+export { default as UserRoute } from "../Components/UserRoute/UserRoute";
+export { default as UserRoutes } from "../Components/UserRoute/UserRoutes";
+export { default as UploadProfile } from "../Components/ProfileAuth/UploadProfile";
