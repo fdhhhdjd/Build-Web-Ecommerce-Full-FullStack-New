@@ -28,8 +28,8 @@ export const ProfileStyle = createGlobalStyle`
 }
 
 .profileContainer > div:first-child > img {
-  width: 20vmax;
-  border-radius: 100%;
+  width: 15vmax;
+  border-radius: 2rem;
   transition: all 0.5s;
 }
 

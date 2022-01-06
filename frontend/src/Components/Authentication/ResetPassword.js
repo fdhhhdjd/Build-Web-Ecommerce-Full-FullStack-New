@@ -5,9 +5,24 @@ import Lottie from "react-lottie";
 import { Link } from "react-router-dom";
 import { defaultOptions3 } from "../../imports/Lottie";
 import MetaData from "../Layout/MetaData";
-const ResetPassword = () => {
+import { resetPassword } from "../../redux/Action/ActionAdmin";
+import { useDispatch } from "react-redux";
+const ResetPassword = ({ match }) => {
   const [togglePass, setTogglePass] = useState(false);
   const [toggleCfPass, setToggleCfPass] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const dispatch = useDispatch();
+  const resetPasswordSubmit = (e) => {
+    e.preventDefault();
+
+    const myForm = new FormData();
+
+    myForm.set("password", password);
+    myForm.set("confirmPassword", confirmPassword);
+
+    dispatch(resetPassword(match.params.token, myForm));
+  };
   const handTogglePass = () => {
     setTogglePass(!togglePass);
   };
@@ -25,7 +40,7 @@ const ResetPassword = () => {
           <Lottie options={defaultOptions3} />
         </div>
         <div className="login-content">
-          <form action="">
+          <form onSubmit={resetPasswordSubmit}>
             <img src={logo} />
             <h2 className="title">RESET</h2>
             <div className="input-div one">
@@ -41,6 +56,8 @@ const ResetPassword = () => {
                   type={togglePass ? "text" : "password"}
                   className="input"
                   placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>
@@ -57,6 +74,8 @@ const ResetPassword = () => {
                   type={toggleCfPass ? "text" : "password"}
                   className="input"
                   placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
             </div>

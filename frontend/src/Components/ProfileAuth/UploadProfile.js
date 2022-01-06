@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import FaceIcon from "@material-ui/icons/Face";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,66 +10,56 @@ import {
   LoadProfileInitiate,
 } from "../../redux/Action/ActionAdmin";
 import { useNavigate } from "react-router-dom";
-import swal from "sweetalert";
 
+import avatars from "../../Images/avatar.svg";
+import { GlobalState } from "../../Contexts/GlobalState";
+import { UPDATE_PROFILE_RESET } from "../../redux/ActionTypes";
 const UpdateProfile = () => {
   const dispatch = useDispatch();
-
-  const { auth, isAuthenticated, error, isUpdated, loading } = useSelector(
-    (state) => state.auth
-  );
-
+  const state = useContext(GlobalState);
+  const [callback, setCallback] = state.callback;
+  const { auth } = useSelector((state) => state.auth);
+  const { error, isUpdated, loading } = useSelector((state) => state.profile);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState();
-  const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
+  const [avatarPreview, setAvatarPreview] = useState(avatars);
   const navigate = useNavigate();
   const updateProfileSubmit = (e) => {
     e.preventDefault();
-
     const myForm = new FormData();
-
     myForm.set("name", name);
     myForm.set("email", email);
     myForm.set("avatar", avatar);
     dispatch(UploadProfileInitiate(myForm));
   };
-
-  const uploadDataChange = (e) => {
-    const file = e.target.files[0];
-    if (!file)
-      return swal("File not Exists", {
-        icon: "error",
-      });
-    if (file.size > 1024 * 1024)
-      return swal("Size too large!", {
-        icon: "error",
-      });
-    if (file.type !== "image/jpeg" && file.type !== "image/png")
-      return swal("File format is incorrect.", {
-        icon: "error",
-      });
-    console.log(file);
-    if (e.target.name === "avatar") {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setAvatarPreview(reader.result);
-          setAvatar(reader.result);
-        }
-      };
-      reader.readAsDataURL(e.target.files[0]);
-    }
+  const updateProfileDataChange = (e) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setAvatarPreview(reader.result);
+        setAvatar(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
   };
-
   useEffect(() => {
-    if (isAuthenticated) {
+    if (auth) {
       setName(auth.name);
       setEmail(auth.email);
       setAvatarPreview(auth.avatar.url);
     }
-  }, [auth]);
-
+    if (error) {
+      dispatch(clearErrors());
+    }
+    if (isUpdated) {
+      dispatch(LoadProfileInitiate());
+      navigate("/profile");
+      dispatch({
+        type: UPDATE_PROFILE_RESET,
+      });
+    }
+  }, [dispatch, error, auth, isUpdated, navigate]);
   return (
     <>
       <UploadProfileStyle />
@@ -102,6 +92,7 @@ const UpdateProfile = () => {
                   required
                   name="email"
                   value={email}
+                  disabled
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -112,16 +103,28 @@ const UpdateProfile = () => {
                   type="file"
                   name="avatar"
                   accept="image/*"
-                  onChange={uploadDataChange}
+                  onChange={updateProfileDataChange}
                 />
               </div>
 
-              <input
-                type="submit"
-                value="Update"
-                className="updateProfileBtn"
-              />
+              {loading ? (
+                <>
+                  <Loader /> <span>Loading....</span>
+                </>
+              ) : (
+                <input
+                  type="submit"
+                  value="Update"
+                  className="updateProfileBtn"
+                />
+              )}
             </form>
+            <span
+              className="updateProfileBtn"
+              onClick={() => navigate("/profile")}
+            >
+              Back Profile
+            </span>
           </div>
         </div>
       </Fragment>

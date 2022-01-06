@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Header,
   Slide,
@@ -7,8 +7,10 @@ import {
   Newsletter,
   Footer,
 } from "../../imports/index";
-
+import { useDispatch, useSelector } from "react-redux";
 const Home = () => {
+  const { user, loading, isAuthenticated } = useSelector((state) => state.auth);
+
   return (
     <>
       <Header />

@@ -56,7 +56,7 @@ const Center = styled.div`
 `;
 
 const Logo = styled.span`
-  font-size: 2rem;
+  font-size: 1.2rem;
   ${mobile({ fontSize: "24px" })}
 `;
 const Right = styled.div`

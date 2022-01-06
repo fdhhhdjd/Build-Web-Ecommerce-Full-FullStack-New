@@ -73,7 +73,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
   const resetPasswordUrl = `${req.protocol}://${req.get(
     "host"
-  )}/api/v1/password/reset/${resetToken}`;
+  )}/password/reset/${resetToken}`;
 
   const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
   try {
@@ -141,7 +141,6 @@ exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
   });
 });
 //!Update user password
-// update User password
 exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("+password");
 
@@ -167,6 +166,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
   };
+
   if (req.body.avatar !== "") {
     const user = await User.findById(req.user.id);
 
@@ -176,7 +176,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
 
     const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
       folder: "avatars",
-      width: 150,
+
       crop: "scale",
     });
 
@@ -185,16 +185,17 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
       url: myCloud.secure_url,
     };
   }
+
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
   });
-
   res.status(200).json({
     success: true,
   });
 });
+
 //!Get all User --Admin
 exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
   const users = await User.find();

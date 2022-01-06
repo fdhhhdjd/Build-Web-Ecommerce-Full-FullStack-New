@@ -13,7 +13,6 @@ const AuthReducer = (state = initialState, action) => {
     case types.REGISTER_API_START:
     case types.LOGOUT_API_START:
     case types.GET_PROFILE_ACCOUNT_START:
-    case types.UPDATE_PROFILE_START:
       return {
         ...state,
         loading: true,
@@ -28,13 +27,7 @@ const AuthReducer = (state = initialState, action) => {
         isAuthenticated: true,
         auth: action.payload,
       };
-    case types.UPDATE_PROFILE_SUCCESS: {
-      return {
-        ...state,
-        loading: false,
-        isUpdated: action.payload,
-      };
-    }
+
     case types.REGISTER_API_SUCCESS:
       return {
         loading: false,
@@ -44,11 +37,7 @@ const AuthReducer = (state = initialState, action) => {
       return {
         loading: false,
         isAuthenticated: false,
-      };
-    case types.UPDATE_PROFILE_SUCCESS:
-      return {
-        loading: false,
-        isUpdated: action.payload,
+        auth: null,
       };
 
     case types.CLEAR_ERRORS_SUCCESS:
@@ -61,7 +50,6 @@ const AuthReducer = (state = initialState, action) => {
     case types.REGISTER_API_FAIL:
     case types.LOGOUT_API_FAIL:
     case types.GET_PROFILE_ACCOUNT_FAIL:
-    case types.UPDATE_PROFILE_FAIL:
       return {
         ...state,
         loading: false,
