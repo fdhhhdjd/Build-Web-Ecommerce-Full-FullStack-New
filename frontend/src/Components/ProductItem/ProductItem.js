@@ -8,6 +8,9 @@ import { useParams } from "react-router-dom";
 import { GlobalState } from "../../Contexts/GlobalState";
 import { GetDetailProductInitiate } from "../../redux/Action/ActionProduct";
 import MetaData from "../Layout/MetaData";
+import { addItemsToCart } from "../../redux/Action/ActionCart";
+import swal from "sweetalert";
+import { toast } from "react-toastify";
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -127,10 +130,34 @@ const ProductItem = () => {
   const state = useContext(GlobalState);
   const [callback, setCallback] = state.callback;
   const { productDetail } = useSelector((state) => state.product);
-  console.log(productDetail);
+  const [quantity, setQuantity] = useState(1);
+  const AddToCartSuccess = () => {
+    dispatch(
+      addItemsToCart(id, quantity),
+      toast.success("Add Product Successfully 😉 !!")
+    );
+  };
+  const HandleIncreaseAmount = () => {
+    if (productDetail.Stock <= quantity)
+      return swal(`The item is only ${productDetail.Stock} pieces 😥`, {
+        icon: "warning",
+      });
+    const qty = quantity + 1;
+    setQuantity(qty);
+  };
+  const HandleDecreaseAmount = () => {
+    if (1 >= quantity)
+      return swal(` couldn't be any smaller😥`, {
+        icon: "warning",
+      });
+
+    const qty = quantity - 1;
+    setQuantity(qty);
+  };
   useEffect(() => {
     dispatch(GetDetailProductInitiate(id));
   }, [callback]);
+
   return (
     <Container>
       <MetaData title={`${productDetail.name} -- Web`} />
@@ -170,11 +197,11 @@ const ProductItem = () => {
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>6</Amount>
-              <Add />
+              <Remove onClick={HandleDecreaseAmount} />
+              <Amount readOnly>{quantity}</Amount>
+              <Add onClick={HandleIncreaseAmount} />
             </AmountContainer>
-            <Button>ADD TO CART</Button>
+            <Button onClick={AddToCartSuccess}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

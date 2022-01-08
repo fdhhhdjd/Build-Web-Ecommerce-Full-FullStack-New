@@ -106,6 +106,7 @@ const Header = () => {
   const state = useContext(GlobalState);
   const [callback, setCallback] = state.callback;
   const { isAuthenticated, auth } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const handleSearch = (e) => {
     e.preventDefault();
@@ -200,7 +201,13 @@ const Header = () => {
             </Link>
           </MenuItem>
           <MenuItem>
-            <Badge badgeContent={4} color="primary">
+            <Badge
+              badgeContent={`${cartItems.reduce(
+                (acc, item) => acc + item.quantity,
+                0
+              )}`}
+              color="primary"
+            >
               <Link to="/cart">
                 <ShoppingCartOutlined />
               </Link>

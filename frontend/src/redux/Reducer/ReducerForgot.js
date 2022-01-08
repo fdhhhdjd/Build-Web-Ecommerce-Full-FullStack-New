@@ -24,6 +24,12 @@ const ForgotReducer = (state = initialState, action) => {
       return {
         ...state,
       };
+    case types.RESET_FORGOT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: action.payload,
+      };
     case types.UPDATE_FORGOT_FAIL:
     case types.RESET_FORGOT_FAIL:
       return {

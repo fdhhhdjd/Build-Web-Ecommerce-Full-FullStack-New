@@ -3,9 +3,11 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
 } from "@material-ui/icons";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { MetaData } from "../../imports/index";
+import { addItemsToCart } from "../../redux/Action/ActionCart";
 const Info = styled.div`
   opacity: 0;
   width: 100%;
@@ -71,6 +73,8 @@ const Icon = styled.div`
 `;
 
 const Product = ({ item, loading }) => {
+  const dispatch = useDispatch();
+
   return (
     <>
       <Container>

@@ -174,6 +174,7 @@ const ProductList = () => {
     const { name, value } = e.target;
     setCategory(e.target.value);
   };
+
   useEffect(() => {
     dispatch(
       GetAllProductInitiate(keyword, currentPage, price, category, ratings)

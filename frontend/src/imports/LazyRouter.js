@@ -41,3 +41,11 @@ export const Profiles = lazy(() => {
     );
   });
 });
+export const ShippingInfo = lazy(() => {
+  return new Promise((resolve) => {
+    setTimeout(
+      () => resolve(import("../Components/ShippingInfo/ShippingInfo")),
+      1000
+    );
+  });
+});

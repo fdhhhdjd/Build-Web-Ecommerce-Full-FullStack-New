@@ -1,13 +1,16 @@
 import { Add, Remove } from "@material-ui/icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { mobile } from "../../Styles/responsive";
 import { Header, Footer, Newsletter, Products } from "../../imports/index";
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router";
-
-const KEY = process.env.REACT_APP_STRIPE;
-
+import { useEffect, useState, Fragment } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  addItemsToCart,
+  removeItemsFromCart,
+} from "../../redux/Action/ActionCart";
+import swal from "sweetalert";
+import EmptyCart from "../EmptyCart/EmptyCart";
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -120,7 +123,7 @@ const ProductPrice = styled.div`
 const Hr = styled.hr`
   background-color: #eee;
   border: none;
-  height: 1px;
+  height: 2px;
 `;
 
 const Summary = styled.div`
@@ -146,6 +149,25 @@ const SummaryItem = styled.div`
 const SummaryItemText = styled.span``;
 
 const SummaryItemPrice = styled.span``;
+const Buttons = styled.button`
+  width: 50px;
+  height: 50px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all ease-in-out 0.7s;
+  outline: none;
+
+  :hover {
+    transform: scale(1.2) rotate(360deg);
+    background-color: rgb(209, 15, 15);
+  }
+
+  img {
+    width: 25px;
+    height: 25px;
+  }
+`;
 
 const Button = styled.button`
   width: 100%;
@@ -156,72 +178,149 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+  const { cartItems } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const increaseQuantity = (id, quantity, stock) => {
+    const newQty = quantity + 1;
+    if (stock <= quantity) {
+      return swal(`The item is only ${stock} pieces 😥`, {
+        icon: "warning",
+      });
+    }
+    dispatch(addItemsToCart(id, newQty));
+  };
+
+  const decreaseQuantity = (id, quantity) => {
+    const newQty = quantity - 1;
+    if (1 >= quantity) {
+      return swal(` couldn't be any smaller😥`, {
+        icon: "warning",
+      });
+    }
+    dispatch(addItemsToCart(id, newQty));
+  };
+  const handleDeleteCart = (id) => {
+    dispatch(removeItemsFromCart(id));
+  };
+  const checkoutHandler = () => {
+    navigate("/shipping");
+  };
   return (
     <Container>
       <Header />
-
       <Wrapper>
         <Title>YOUR BAG</Title>
         <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
+          <TopButton onClick={() => navigate("/products/all")}>
+            CONTINUE SHOPPING
+          </TopButton>
           <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
+            <TopText>
+              Shopping Bag(
+              {cartItems.reduce((acc, item) => acc + item.quantity, 0)})
+            </TopText>
             <TopText>Your Wishlist (0)</TopText>
           </TopTexts>
           <TopButton type="filled">CHECKOUT NOW</TopButton>
         </Top>
-        <Bottom>
-          <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://d3o2e4jr3mxnm3.cloudfront.net/Rocket-Vintage-Chill-Cap_66374_1_lg.png" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> mu
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 15
-                  </ProductId>
-                  <ProductColor color="red" />
-                  <ProductSize>
-                    <b>Size:</b> M
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>4</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 150</ProductPrice>
-              </PriceDetail>
-            </Product>
 
-            <Hr />
-          </Info>
-          <Summary>
-            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-            <SummaryItem>
-              <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ 5</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>$ 5.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem type="total">
-              <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 5</SummaryItemPrice>
-            </SummaryItem>
+        {cartItems.length === 0 ? (
+          <EmptyCart />
+        ) : (
+          <Bottom>
+            <Info>
+              {cartItems &&
+                cartItems.map((item, i) => {
+                  return (
+                    <Fragment key={i}>
+                      <Product>
+                        <ProductDetail>
+                          <Image src={item.image} />
+                          <Details>
+                            <ProductName>
+                              <b>Product:</b> {item.name}
+                            </ProductName>
+                            <ProductId>
+                              <b>ID:</b> {item.product}
+                            </ProductId>
+                            <ProductColor color="red" />
+                            <ProductSize>
+                              <b>Stock:</b> {item.stock}
+                            </ProductSize>
+                          </Details>
+                        </ProductDetail>
+                        <PriceDetail>
+                          <ProductAmountContainer>
+                            <Add
+                              onClick={() =>
+                                increaseQuantity(
+                                  item.product,
+                                  item.quantity,
+                                  item.stock
+                                )
+                              }
+                            />
+                            <ProductAmount>{item.quantity}</ProductAmount>
+                            <Remove
+                              onClick={() =>
+                                decreaseQuantity(item.product, item.quantity)
+                              }
+                            />
+                          </ProductAmountContainer>
+                          <Buttons
+                            className="actions__deleteItemBtn"
+                            onClick={() => handleDeleteCart(item.product)}
+                          >
+                            <img
+                              src="https://img.icons8.com/ios-glyphs/30/000000/filled-trash.png"
+                              alt=""
+                            />
+                          </Buttons>
+                          <br />
+                          <ProductPrice>$ {item.price}</ProductPrice>
+                        </PriceDetail>
+                      </Product>
+                      <br />
+                      <Hr />
+                      <br />
+                    </Fragment>
+                  );
+                })}
+            </Info>
 
-            <Button>CHECKOUT NOW</Button>
-          </Summary>
-        </Bottom>
+            <Summary>
+              <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+              <SummaryItem>
+                <SummaryItemText>Subtotal Product</SummaryItemText>
+                <SummaryItemPrice>
+                  {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
+                  &nbsp;
+                  {`(
+                  Item)`}
+                </SummaryItemPrice>
+              </SummaryItem>
+              <SummaryItem>
+                <SummaryItemText>Estimated Shipping</SummaryItemText>
+                <SummaryItemPrice>$ 5.90</SummaryItemPrice>
+              </SummaryItem>
+              <SummaryItem>
+                <SummaryItemText>Shipping Discount</SummaryItemText>
+                <SummaryItemPrice>$ -5.90</SummaryItemPrice>
+              </SummaryItem>
+              <SummaryItem type="total">
+                <SummaryItemText>Total</SummaryItemText>
+                <SummaryItemPrice>
+                  {`$ ${cartItems.reduce(
+                    (acc, item) => acc + item.quantity * item.price,
+                    0
+                  )}`}
+                </SummaryItemPrice>
+              </SummaryItem>
+              <Button onClick={checkoutHandler}>CHECKOUT NOW</Button>
+            </Summary>
+          </Bottom>
+        )}
       </Wrapper>
       <Footer />
     </Container>

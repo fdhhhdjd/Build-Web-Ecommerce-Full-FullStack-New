@@ -267,13 +267,13 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
     );
 
     dispatch(
-      ResetForgotStart(data.success),
+      ResetForgotSuccess(data.success),
       swal(data.success, {
         icons: "success",
       })
     );
   } catch (error) {
-    dispatch(ResetForgotStart(error), toast.error(error.response.data.message));
+    dispatch(ResetForgotFail(error), toast.error(error.response.data.message));
   }
 };
 //!CLEAR_ERRORS

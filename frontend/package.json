@@ -6,10 +6,13 @@
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@reduxjs/toolkit": "^1.7.1",
+    "@stripe/react-stripe-js": "^1.7.0",
+    "@stripe/stripe-js": "^1.22.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.24.0",
+    "country-state-city": "^3.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.22.5",
@@ -46,5 +49,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://192.168.1.66:5000"
+  "proxy": "http://localhost:5000"
 }

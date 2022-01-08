@@ -23,3 +23,7 @@ export { default as Loader } from "../Components/Loading/Loader";
 export { default as Profile } from "../Components/ProfileAuth/Profile";
 export { default as UploadProfile } from "../Components/ProfileAuth/UploadProfile";
 export { default as UpdatePassword } from "../Components/UploadPassword/UploadPassword";
+export { default as ShippingInfo } from "../Components/ShippingInfo/ShippingInfo";
+export { default as Order } from "../Components/Order/Order";
+export { default as Payment } from "../Components/Payment/Payment";
+export { default as CheckoutSteps } from "../Components/ShippingInfo/CheckoutSteps";

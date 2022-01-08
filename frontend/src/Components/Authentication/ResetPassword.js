@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AuthStyle } from "../../Styles/AuthenticationStyle/AuthStyle";
 import { wave, bg, logo } from "../../imports/Image";
 import Lottie from "react-lottie";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { defaultOptions3 } from "../../imports/Lottie";
 import MetaData from "../Layout/MetaData";
 import { resetPassword } from "../../redux/Action/ActionAdmin";
@@ -13,6 +13,7 @@ const ResetPassword = ({ match }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const dispatch = useDispatch();
+  let { token } = useParams();
   const resetPasswordSubmit = (e) => {
     e.preventDefault();
 
@@ -20,8 +21,8 @@ const ResetPassword = ({ match }) => {
 
     myForm.set("password", password);
     myForm.set("confirmPassword", confirmPassword);
-
-    dispatch(resetPassword(match.params.token, myForm));
+    dispatch(resetPassword(token, myForm));
+    console.log(password);
   };
   const handTogglePass = () => {
     setTogglePass(!togglePass);
