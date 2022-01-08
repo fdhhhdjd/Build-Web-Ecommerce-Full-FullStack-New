@@ -25,6 +25,7 @@
     "mongoose": "^6.1.4",
     "nodemailer": "^6.7.2",
     "react-helmet": "^6.1.0",
+    "stripe": "^8.195.0",
     "validator": "^13.7.0"
   }
 }
